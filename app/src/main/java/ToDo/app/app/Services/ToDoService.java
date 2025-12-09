@@ -1,5 +1,8 @@
 package ToDo.app.app.Services;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ToDoService {
     public String GetAllTodos() {
         return "all Todos";
