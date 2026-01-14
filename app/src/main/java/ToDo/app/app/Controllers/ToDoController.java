@@ -8,6 +8,7 @@ import ToDo.app.app.Services.ToDoService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,11 +35,12 @@ public class ToDoController {
 
     @GetMapping("/{id}")
     public TodoItem GetTodoById(@PathVariable Long id) {        //error handling neccessary
-        return toDoService.GetTodoById(id).get();   
+        return toDoService.GetTodoById(id).get();               //responce entities einbauen
     }
 
     @PostMapping("/createTodo")
     public TodoItem CreateTodo(@RequestBody TodoItem item) {
+        ResponseEntity.ok();
         return toDoService.CreateTodo(item);
     }
 
