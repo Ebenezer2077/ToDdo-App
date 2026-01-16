@@ -31,7 +31,7 @@ public class ToDoService {
         return repository.save(item);
     }
 
-    public void DeleteTodo(Long id) {                   //return type for confirmation of deletion?
+    public void DeleteTodo(Long id) {
         repository.deleteById(id);
     }
 }
