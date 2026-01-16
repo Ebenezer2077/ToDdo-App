@@ -40,6 +40,7 @@ public class ToDoController {
             TodoItem item = toDoService.GetTodoById(id).get();
             return ResponseEntity.ok(item);
         } catch (NoSuchElementException e) {
+            System.err.println("Error: ToDo-Item with id: " + id + " does not exist");
             return ResponseEntity.badRequest().build();
         }
     }
@@ -54,6 +55,7 @@ public class ToDoController {
         try {
             toDoService.GetTodoById(id).get();
         } catch (NoSuchElementException e) {
+            System.err.println("Error: Could not find the ToDo-Item with id: " + id + " for deletion");
             return ResponseEntity.badRequest().build();
         }
         toDoService.DeleteTodo(id);
@@ -70,6 +72,7 @@ public class ToDoController {
             toDoService.CreateTodo(todo);
             return ResponseEntity.ok(todo);
         } catch (NoSuchElementException e) {
+            System.err.println("Error: ToDo-Item with id: " + id + " does not exist");
             return ResponseEntity.badRequest().build();
         }
     }
