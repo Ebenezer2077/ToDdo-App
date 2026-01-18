@@ -1,26 +1,37 @@
 package ToDo.app.app.Services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
+import ToDo.app.app.Entities.TodoItem;
+import ToDo.app.app.Repositories.ToDoRepository;
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class ToDoService {
-    public String GetAllTodos() {
-        return "all Todos";
+
+    private final ToDoRepository repository;
+
+    public ToDoService(ToDoRepository repository) {
+        this.repository = repository;
     }
 
-    public String GetTodoById(Long id) {
-        return "todo with ID: " + id;
+    public List<TodoItem> GetAllTodos() {
+        return repository.findAll();
     }
 
-    public String CreateTodo() {
-        return "Todo Created";
+    public Optional<TodoItem> GetTodoById(Long id) {
+        return repository.findById(id);
     }
 
-    public String DeleteTodo(Long id) {
-        return "Todo " + id + " deleted";
+    public TodoItem CreateTodo(TodoItem item) {
+        return repository.save(item);
     }
 
-    public String UpdateTodo(Long id) {
-        return "Todo " + id + "updated";
+    public void DeleteTodo(Long id) {
+        repository.deleteById(id);
     }
 }
