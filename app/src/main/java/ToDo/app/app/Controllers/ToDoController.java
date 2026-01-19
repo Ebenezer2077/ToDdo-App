@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ToDo.app.app.Entities.TodoItem;
 import ToDo.app.app.Services.ToDoService;
+import ToDo.app.app.DTOs.ApiResponse;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -75,5 +76,30 @@ public class ToDoController {
             System.err.println("Error: ToDo-Item with id: " + id + " does not exist");
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    // ===== Neue Endpoints mit Latency-Tracking & Metadaten =====
+
+    @GetMapping("/{id}/detailed")
+    public ResponseEntity<ApiResponse<TodoItem>> GetTodoByIdDetailed(@PathVariable Long id) {
+        long startTime = System.currentTimeMillis();
+        try {
+            TodoItem item = toDoService.GetTodoById(id).get();
+            long endTime = System.currentTimeMillis();
+            long latency = endTime - startTime;
+            return ResponseEntity.ok(new ApiResponse<>(item, latency));
+        } catch (NoSuchElementException e) {
+            System.err.println("Error: ToDo-Item with id: " + id + " does not exist");
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/gettodos/detailed")
+    public ResponseEntity<ApiResponse<List<TodoItem>>> GetTodosDetailed() {
+        long startTime = System.currentTimeMillis();
+        List<TodoItem> todos = toDoService.GetAllTodos();
+        long endTime = System.currentTimeMillis();
+        long latency = endTime - startTime;
+        return ResponseEntity.ok(new ApiResponse<>(todos, latency));
     }
 }
